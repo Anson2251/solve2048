@@ -1,6 +1,3 @@
-# solve2048
-solve 2048 games
-=======
 <!-- <style>
     .matrix-2048{
         border-collapse: collapse;
@@ -25,7 +22,8 @@ solve 2048 games
     }
 </style> -->
 
-# Solving 2048 game with fixed algorithm
+# solve2048
+Solving 2048 game with fixed algorithm
 
 ## 1. What is 2048
 
