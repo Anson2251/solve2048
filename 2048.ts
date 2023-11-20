@@ -334,12 +334,20 @@ export namespace solve {
 
         // 左
         for (let y = 0; y < MAP_HEIGHT; y++) {
+<<<<<<< HEAD
             if (getValueFromMap(map, y, 0) !== 0) border[DIRECTION_CODE.LEFT]++;
+=======
+            if (getValueFromMap(map, 0, y) !== 0) border[DIRECTION_CODE.LEFT]++;
+>>>>>>> 21378a9 (add multiple decision maker algorithm)
         }
 
         // 右
         for (let y = 0; y < MAP_HEIGHT; y++) {
+<<<<<<< HEAD
             if (getValueFromMap(map, y, MAP_WIDTH - 1) !== 0) border[DIRECTION_CODE.RIGHT]++;
+=======
+            if (getValueFromMap(map, MAP_WIDTH - 1, y) !== 0) border[DIRECTION_CODE.RIGHT]++;
+>>>>>>> 21378a9 (add multiple decision maker algorithm)
         }
 
         return border;

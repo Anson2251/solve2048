@@ -1,0 +1,6 @@
+.VSCodeCounter/
+.vite/
+build/
+node_modules/
+solve2048-0.3.zip
+*.js
