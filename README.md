@@ -1,7 +1,7 @@
 # solve2048
 solve 2048 games
 =======
-<style>
+<!-- <style>
     .matrix-2048{
         border-collapse: collapse;
         
@@ -23,7 +23,7 @@ solve 2048 games
         border-bottom: 2px solid grey !important;
         width: 100%
     }
-</style>
+</style> -->
 
 # Solving 2048 game with fixed algorithm
 
@@ -117,8 +117,3 @@ To make even smarter decisions, the function repeats this process for a few more
 
 By considering the scores assigned to the potential game boards at each step, the algorithm selects the direction that may lead to the most favourable outcome.
 
-
-
-
-    
->>>>>>> 21378a9 (add multiple decision maker algorithm)
