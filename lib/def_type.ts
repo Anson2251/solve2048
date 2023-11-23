@@ -10,7 +10,7 @@ export namespace types {
     }
 
     export type map2048 = number[][];
-    /**[`up`, `down`, `left`, `right`]*/
+    /**[`up`, `left`, `down`, `right`]*/
     export type directionsArray = [number, number, number, number];
     /**[`horizontal`, `vertical`]*/
     export type VerticalHorizontal_Array = [number, number];
