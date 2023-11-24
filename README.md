@@ -58,8 +58,6 @@ For example, if the matrix looks like this:
 
 The player can then simply use the arrow keys to move the matrix to the **LEFT**, for example:
 
-
-
 <table class="matrix-2048">
 <tr><td>2</td><td>0</td><td>0</td><td>0</td></tr>
 <tr><td>8</td><td>0</td><td>0</td><td>0</td></tr>
@@ -75,7 +73,7 @@ In the above matrix
 
 As expected, this matrix cannot be moved any further upwards as it would be out of the matrix and none of the blocks can be be merged anymore.
 
-## How to solve 2048 by using algorithm?
+## 3. How to solve 2048 by using algorithm?
 
 ### **TYPES** defined as prerequisite
 
