@@ -109,7 +109,7 @@ Collecting the data from the matrix directly
 
 The purpose of this method is to **filter out unfeasible directions and select the best direction of movement**.
 
-The information collected should be able to indicate a better moveable direction. Filtering out the **moveable directions is done by `NFR` and `NSB`**, and the **better directions are indicated by `NCD`**. *(All of these aspects are going to be described in more detail below)*
+The information collected should be able to indicate a better moveable direction. Filtering out the **moveable directions is done by `NFR` and `NLB`**, and the **better directions are indicated by `NCD`**. *(All of these aspects are going to be described in more detail below)*
 
 #### **Aspects**:
 
@@ -173,7 +173,7 @@ The information collected should be able to indicate a better moveable direction
 
     It will return the value `[2, 1]`
 
-- **Number of Squares at the Boundary (`NSB`)**
+- **Number of bLocks at the Boundary (`NLB`)**
     
     The purpose of this function is to get the **current distribution** of blocks in the matrix, similar to the `NFR` function, but this function can **complement** `NFR`.
 
@@ -200,9 +200,9 @@ The information collected should be able to indicate a better moveable direction
     
     According to practical experience, **DOWNWARD should be chosen** .
     
-    In order to **identify which direction is better (to follow this practice)**, another function `NSB` is needed. It counts the number of **blocks on each side**, and decide the direction to move.
+    In order to **identify which direction is better (to follow this practice)**, another function `NLB` is needed. It counts the number of **blocks on each side**, and decide the direction to move.
 
-    In this example `NSB` would return this result: `[0, 2, 1, 0]`, we can combine this data and get the final result, which is DOWNWARD (`1 > 0`).
+    In this example `NLB` would return this result: `[0, 2, 1, 0]`, we can combine this data and get the final result, which is DOWNWARD (`1 > 0`).
 
 The values taken can roughly reflect the current situation, but weights are needed to improve the decision.
 
@@ -214,7 +214,7 @@ The initial weighting is as follows, which can be changed by the user or by the 
 
 | ASPECT NO. | INITIAL WEIGHT |
 |:---:|:---:|
-| `NSB` |(face the direction with the most boxes) <br> this: 1, side: 2, opposite: 1 |
+| `NLB` |(face the direction with the most boxes) <br> this: 1, side: 2, opposite: 1 |
 | `NFR` | 4 |
 | `NCD` | 16 |
 
@@ -243,7 +243,7 @@ The process is as follows:
 
         - VERTICAL: two blocks 2 can be combined
 
-    - `NSB`: Count the number of blocks on each side, the result will be `[2, 3, 0, 0]`.
+    - `NLB`: Count the number of blocks on each side, the result will be `[2, 3, 0, 0]`.
 
         - **TOP**: Block 8 & block 4.
         - **LEFT**: Block 8 & two blocks 2.
