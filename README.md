@@ -1,4 +1,4 @@
-<style>
+<!--<style>
     .matrix-2048{
         border-collapse: collapse;
         
@@ -20,7 +20,7 @@
         border-bottom: 2px solid grey !important;
         width: 100%
     }
-</style>
+</style>!-->
 
 # solve2048
 Solving 2048 game with fixed algorithm
