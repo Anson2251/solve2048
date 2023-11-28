@@ -1,4 +1,4 @@
-<!--<style>
+<style>
     .matrix-2048{
         border-collapse: collapse;
         
@@ -20,7 +20,7 @@
         border-bottom: 2px solid grey !important;
         width: 100%
     }
-</style>!-->
+</style>
 
 # solve2048
 Solving 2048 game with fixed algorithm
@@ -30,6 +30,7 @@ Solving 2048 game with fixed algorithm
 2048 is a game that allows players to **move** the block. The same block would **merge** when they touch each other and the value of the block will be doubled. Meanwhile, some **randomly generating blocks will be added to the matrix**, the value of it will be 2 (for most times) or 4. Players win if they manage to **obtain block 2048**(`2^11`), that might be why it is called 2048. If they cannot get block 2048 **until the matrix is full of blocks**, they would lose the game.
 
 This game emphasises some special strategies for players, such as:
+
 - DO NOT move the block out of the matrix
 - SHOULD combine the blocks as much as possible
 - SHOULD calculate some steps or some moves in advanced after each process.
@@ -71,7 +72,17 @@ In the above matrix
 - ROW 3: although moving to the left can be outside the matrix, the four blocks 2 can be made into two blocks 4. However, only **two blocks can be merged into one at a time**.
 - ROW 4: Block 32 cannot be moved in this direction because it would be **outside the matrix**.
 
-As expected, this matrix cannot be moved any further upwards as it would be out of the matrix and none of the blocks can be be merged anymore.
+The player then uses the arrow keys to move the matrix to the LEFT again:
+
+<table class="matrix-2048">
+<tr><td>2</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>8</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>8</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>32</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+
+
+As expected, this matrix cannot be moved any further upwards or left as it would be out of the matrix and none of the blocks can be be merged anymore.
 
 ## 3. How to solve 2048 by using algorithm?
 
@@ -192,7 +203,7 @@ The information collected should be able to indicate a better moveable direction
 
     - `NFR` would give this result: `[2, 1, 2, 3]`.
     
-    - `NCD` would give this result: `[0, 2]`.
+    - `NCD` would give this result: `[0, 4]`.
 
     From this we can deduce that we should move **UPWARD** or **DOWNWARD**, since we can move in these directions (result of `NFR`) and combine the most blocks (result of `NCD`). 
     
@@ -327,7 +338,6 @@ Such extrapolations are **repeated many times** on **each branch** until they **
 <img src="./doc/img/solver-multiple-decision-tree.svg" style="border-radius: 4px">
 
 The **largest** sum of the branch value in `LAYER 1`, and the sum of all branch values in `LAYER 2` and the LAYERS below, **gives the direction** in which the branch will execute.
-
 
 ---
 

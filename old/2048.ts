@@ -141,7 +141,7 @@ export namespace solve {
 
         console.log(`正在测试权重 ${JSON.stringify(weights)}`);
 
-        let results = [];
+        let results = [] as any;
         for (let i = 0; i < AVERAGE_ACCURACY; i++) {
             const result = await loadTrainingMode();
             results.push(result.score);
@@ -599,7 +599,7 @@ export namespace solve {
     }
 
     function getWeigts(): number[] {
-        let weights = [];
+        let weights = [] as any;
         weights[EVO_RELATIONSHIP_MAP.COMBINE_WEIGHT] = COMBINE_WEIGHT;
         weights[EVO_RELATIONSHIP_MAP.FEASIBILE_APPROCH_WEIGHT] = FEASIBILE_APPROCH_WEIGHT;
         weights[EVO_RELATIONSHIP_MAP.BORDER_DECISION_WEIGHT__THIS] = BORDER_DECISION_WEIGHT.THIS;

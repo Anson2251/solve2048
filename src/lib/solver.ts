@@ -18,6 +18,8 @@ export class solver {
     /**
      * 静态的表盘分析
      * 
+     * 使用 `importMapFromXXX` 导入表盘
+     * 
      * 调用前请**先调用 `gameMap.update` 方法**以获取最新数据
      * @returns 
      */
@@ -35,10 +37,10 @@ export class solver {
     }
 
     /** 单步决策 */
-    decisionMaker_single() {
+    decisionMaker_single(): types.DIRECTION_CODE | null {
         if (!this.observer) console.error(`[solver.decisionMaker_single] 单步决策依赖于 observer 对象, 请先使用 importMapFrom2048Map 创建该对象`);
         if (!this.weights) console.error(`[solver.decisionMaker_single] 单步决策依赖于 weights  对象, 请在构造时提供`);
-        if (!this.observer || !this.weights) return -1;
+        if (!this.observer || !this.weights) return null;
 
         let initialDirectionsWeight = (new Array(4)).fill(0);
 
@@ -77,7 +79,7 @@ export class solver {
             }
         }
 
-        if (this.logMode) console.log(`DBCC: \t[${directionBoxesCanCombine.join(", ")}]\nBAE: \t[${boxesAtEdge.join(", ")}]\nDF: \t[${directionsFeasibility.join(", ")}]\nFDW: \t[${initialDirectionsWeight.join(", ")}]`);
+        if (this.logMode) console.log(`NCB: \t[${directionBoxesCanCombine.join(", ")}]\nNLB: \t[${boxesAtEdge.join(", ")}]\nNFR: \t[${directionsFeasibility.join(", ")}]\nFDW: \t[${initialDirectionsWeight.join(", ")}]`);
 
         return initialDirectionsWeight.indexOf(Math.max(...initialDirectionsWeight));
     }
@@ -125,7 +127,7 @@ export class solver {
                 if (depth >= depthLimited) {
                     socres[direction] = branchScore;
                 } else {
-                    socres[direction] = (getArraySum(getBranchScores(StmltMAP, depth, depthLimited)) + branchScore) / depth;
+                    socres[direction] = (getArraySum(getBranchScores(StmltMAP, depth, depthLimited)) + branchScore) / Math.pow(depth, 2);
                     // 不鼓励深层的递归（算法无法考虑随机因素）
                 }
 
