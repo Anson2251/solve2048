@@ -6,8 +6,8 @@ import consts from "./def_const";
 import { weights_single } from "./weights";
 
 export class displayPanel {
-    panel_container: HTMLDivElement | undefined;
-    using_multiple: boolean;
+    panelContainer: HTMLDivElement;
+    usingMultiple: boolean;
     suggestionBox: HTMLDivElement;
 
     map: gameMap;
@@ -19,7 +19,7 @@ export class displayPanel {
     multipleLimit: number;
     constructor(multipleLimit?: number) {
         this.multipleLimit = multipleLimit || 4;
-        this.using_multiple = false;
+        this.usingMultiple = false;
 
         this.map = new gameMap(0, false);
         this.weight = new weights_single(consts.INITIAL_WEIGHT);
@@ -36,6 +36,8 @@ export class displayPanel {
 
         let bodyElement = document.querySelector("body");
         let panelContainer = document.createElement("div");
+        this.panelContainer = panelContainer;
+
         panelContainer.className = "displayPanel";
 
         let depthLimit = this.initLimitInput();
@@ -53,8 +55,12 @@ export class displayPanel {
     }
 
     initModeSwitch(){
-        let switchContainer = document.createElement("div");
+        let switchContainer = document.createElement("fieldset"); // for the field
         switchContainer.className = "modeSwitch";
+
+        let fieldLabel = document.createElement("legend"); // for label
+        fieldLabel.innerText = "Mode Switch";
+        switchContainer.appendChild(fieldLabel);
 
         let switch_single = displayPanel.createRadioInput("single", "Single Mode");
         let switch_multiple = displayPanel.createRadioInput("multiple", "Multiple Mode");
@@ -69,40 +75,57 @@ export class displayPanel {
         let input_multiple = switch_multiple.input;
 
         input_single.checked = true;
-        input_single.onclick = () => {
-            this.using_multiple = input_multiple.checked;
+        input_single.onclick = () => { // change the multiple status
+            this.usingMultiple = input_multiple.checked;
             this.getSuggestion();
         }
-        input_multiple.onclick = () => {
-            this.using_multiple = input_multiple.checked;
+        input_multiple.onclick = () => { // change the multiple status
+            this.usingMultiple = input_multiple.checked;
             this.getSuggestion();
         }
 
         return switchContainer;
     }
 
-    initSuggestionBox(){
+    initSuggestionBox(): HTMLDivElement {
         let suggestionBox = document.createElement("div");
         suggestionBox.className = "suggestionBox";
 
         return suggestionBox;
     }
 
-    initLimitInput(){
+    initLimitInput(): {
+        input: HTMLInputElement;
+        container: HTMLLabelElement;
+    }{
         let limitInput = document.createElement("input");
         limitInput.type = "number";
         limitInput.className = "limitInput";
         limitInput.value = this.multipleLimit.toString();
         limitInput.onchange = () => {
-            this.multipleLimit = parseInt(limitInput.value);
-            if(this.multipleLimit > 10) alert ("Large number is not recommended, it will significantly slow down the speed");
+            let newVal = parseInt(limitInput.value);
+            if(newVal > displayPanel.recommandedMAXLimit) { // not recommand large number
+                let confirmBox = confirm("Large number is not recommended, it will significantly slow down the speed");
+                if(confirmBox){
+                    this.multipleLimit = newVal;
+                }else{
+                    limitInput.value = this.multipleLimit.toString();
+                }
+            }
+            else if(newVal < 1) {
+                alert("Limit cannot be less than 1");
+                limitInput.value = this.multipleLimit.toString();
+            }
+            else{
+                this.multipleLimit  = newVal;
+            }
             this.getSuggestion();
         }
 
         let container = document.createElement("label");
-        container.title = "The depth limit of the decision tree, larger value will significantly slow down the speed";
+        container.title = "The depth limit of the decision tree, the greater, the better\nNOTICE: a larger value will significantly slow down the speed";
         container.className = "limitInputContainer";
-        container.innerHTML = "Depth Limit: ";
+        container.innerHTML = "&ensp;Depth Limit: ";
         container.appendChild(limitInput);
 
         return {
@@ -135,12 +158,11 @@ export class displayPanel {
         }
     }
 
-    getSuggestion(){
+    async getSuggestion(){
         let direction = -2;
-        if(this.using_multiple){
-            this.suggestionBox.innerHTML = `Suggestion[${this.using_multiple ? "M" : "S"}]: Calculating`;
+        if(this.usingMultiple){
+            //this.suggestionBox.innerHTML = `Suggestion[${this.usingMultiple ? "M" : "S"}]: Calculating`;
             direction = this.getSuggestionMultiple();
-            console.log(direction)
         } else {
             direction = this.getSuggestionSingle();
         }
@@ -150,18 +172,21 @@ export class displayPanel {
     }
 
     updateSuggestion(direction: types.DIRECTION_CODE | number){
-        if(0 <= direction && direction <= 3) this.suggestionBox.innerHTML = `Suggestion[${this.using_multiple ? "M" : "S"}]: ${displayPanel.directionMap[direction as types.DIRECTION_CODE]}`;
+        if(0 <= direction && direction <= 3) this.suggestionBox.innerHTML = `Suggestion[${this.usingMultiple ? "M" : "S"}]: ${displayPanel.directionMap[direction as types.DIRECTION_CODE]}`;
         else {
-            this.suggestionBox.innerHTML = `Suggestion[${this.using_multiple ? "M" : "S"}]: No suggestion or Internal error`;
+            this.suggestionBox.innerHTML = `Suggestion[${this.usingMultiple ? "M" : "S"}]: ⚠️`;
         }
     }
 
-    setAutoUpdateSuggestion(){
-        document.onkeyup = (e) => {setTimeout(() => this.getSuggestion(), 200);}
+    setAutoUpdateSuggestion(){ // automatically update the suggestions
+        document.onkeyup = (e) => {setTimeout(() => this.getSuggestion(), 200);};
+        document.ontouchmove = (e) => {setTimeout(() => this.getSuggestion(), 200);};
     }
 }
 
 export namespace displayPanel {
+    export const recommandedMAXLimit = 8;
+
     export let directionMap = {
         [types.DIRECTION_CODE.UPWARD]: "↑",
         [types.DIRECTION_CODE.DOWNWARD]: "↓",
