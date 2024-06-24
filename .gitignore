@@ -1,8 +1,9 @@
 .VSCodeCounter/
 .vite/
-build/
+build
 node_modules/
 solve2048-0.3.zip
 src/lib/strategies.ts
-src/dist/
+dist
 .DS_Store
+
