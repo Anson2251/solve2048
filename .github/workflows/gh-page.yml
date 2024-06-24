@@ -34,14 +34,14 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: "cd src; npm install"
+        run: "npm install"
 
       - name: Build
         # Outputs to the './_site' directory by default
-        run: "cd src; npm exec vite build"
+        run: "npm exec vite build-demo"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           branch: gh-pages-demo
-          folder: "../dist/"
+          folder: "dist/"
