@@ -36,6 +36,9 @@ jobs:
       - name: Install dependencies
         run: "cd src; npm install"
 
+      - name: Install Vite
+        run: "cd src; npm install vite"
+
       - name: Build
         # Outputs to the './_site' directory by default
         run: "cd src; vite build"
