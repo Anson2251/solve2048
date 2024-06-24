@@ -33,11 +33,8 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Prepare
-        run: cd src
-
       - name: Install dependencies
-        run: npm install
+        run: "cd src; npm install"
 
       - name: Setup Pages
         id: pages
@@ -45,7 +42,7 @@ jobs:
 
       - name: Build
         # Outputs to the './_site' directory by default
-        run: "vite build"
+        run: "cd src; vite build"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
